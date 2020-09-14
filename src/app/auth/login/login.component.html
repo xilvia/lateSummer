@@ -1,0 +1,36 @@
+ <section>
+   <h2>Login</h2>
+   <div>
+     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #formLogin="ngForm" action="">
+       <div>
+         <br>
+         <div>
+           <label for="userName">Username:</label>
+           <br>
+           <input type="text" formControlName="userName" id="userName" required />
+           <div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+             <div *ngIf="userName.errors.required">Username is required</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <label for="password">Password:</label>
+           <br>
+           <input type="password" formControlName="password" id="password" required />
+           <div *ngIf="password.invalid && (password.dirty || password.touched)">
+             <div *ngIf="password.errors.required">Password is required</div>
+           </div>
+         </div>
+         <br>
+         <div>
+           <button type="submit">Save</button>
+           <button type="button" (click)="formLogin.resetForm()">Reset</button>
+         </div>
+         <br>
+         <div *ngIf="formLogin.submitted">
+           <p>...</p>
+         </div>
+       </div>
+     </form>
+   </div>
+ </section>

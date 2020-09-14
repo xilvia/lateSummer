@@ -1,0 +1,100 @@
+ <section>
+   <h2>Sign Up</h2>
+   <div>
+     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" #formSignUp="ngForm" action="">
+       <div>
+         <br />
+         <div>
+           <label for="firstName">First name:</label>
+           <br>
+           <input type="text" formControlName="firstName" id="firstName" required />
+           <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+             <div *ngIf="firstName.errors.required">First name is required</div>
+             <div *ngIf="firstName.errors.minlength">First name must be at least 4 characters long</div>
+             <div *ngIf="firstName.errors.invalidFirstName">First name can contain only letters</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <label for="lastName">Last name:</label>
+           <br>
+           <input type="text" formControlName="lastName" id="lastName" required />
+           <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+             <div *ngIf="lastName.errors.required">Last name is required</div>
+             <div *ngIf="lastName.errors.minlength">Last name must be at least 4 characters long</div>
+             <div *ngIf="lastName.errors.invalidLastName">Last name can contain only letters</div>
+           </div>
+         </div>
+         <br>
+         <div>
+           <label for="userName">Username:</label>
+           <br>
+           <input type="text" formControlName="userName" id="userName" required />
+           <div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+             <div *ngIf="userName.errors.required">Username is required</div>
+             <div *ngIf="userName.errors.minlength">Username must be at least 4 characters long</div>
+             <div *ngIf="userName.errors.maxlength">Username cannot be longer than 12 characters</div>
+             <div *ngIf="userName.errors.invalidUserName">Username can contain only
+               letters and numbers and cannot
+               contain only numbers</div>
+             <div *ngIf="userName.errors.alphaNumeric">Username cannot contain special characters</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <label for="email">E-mail:</label>
+           <br>
+           <input type="email" formControlName="email" id="email" required />
+           <div *ngIf="email.invalid && (email.dirty || email.touched)">
+             <div *ngIf="email.errors.required">E-mail is required</div>
+             <div *ngIf="email.errors.email">Invalid e-mail format</div>
+             <div>E-mail already exists</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <label for="password">Password:</label>
+           <br>
+           <input type="password" formControlName="password" id="password" required />
+           <div *ngIf="password.invalid && (password.dirty || password.touched)">
+             <div *ngIf="password.errors.required">Password is required</div>
+             <div *ngIf="password.errors.invalidPassword">Password must contain at least 1 lowercase letter, 1 uppercase
+               character, 1 number and 1 special character
+             </div>
+             <div *ngIf="password.errors.minlength">Password must be at least 8 characters long</div>
+             <div *ngIf="password.errors.maxlength">Password cannot be longer than 12 characters</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <label for="confirmPassword">Confirm password:</label>
+           <br>
+           <input type="password" formControlName="confirmPassword" id="confirmPassword" required />
+           <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+             <div *ngIf="confirmPassword.errors.required">Password confirmation is required</div>
+             <div *ngIf="confirmPassword.errors.compare">Password and password confirmation do not match</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <label for="address">Address:</label>
+           <br>
+           <input type="text" formControlName="address" id="address" required />
+           <div *ngIf="address.invalid && (address.dirty || address.touched)">
+             <div *ngIf="address.errors.required">Address is required</div>
+             <div *ngIf="address.errors.invalidAddress">Invalid address</div>
+           </div>
+         </div>
+         <br />
+         <div>
+           <button [disabled]="signUpForm.invalid" type="submit">Save</button>
+           <button type="button" (click)="formSignUp.resetForm()">Reset</button>
+         </div>
+         <br>
+         <div *ngIf="formSignUp.submitted">
+           <p>Sending user data...</p>
+         </div>
+       </div>
+     </form>
+   </div>
+ </section>

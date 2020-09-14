@@ -1,0 +1,44 @@
+<nav>
+  <div>
+    <ul>
+      <li>
+        <a [routerLink]="['/create']">Registration</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<section>
+  <h2>Admin page</h2>
+  <div>
+    <table mat-table>
+      <thead>
+        <tr mat-header-row>
+          <th mat-header-cell>ID</th>
+          <th mat-header-cell>First name</th>
+          <th mat-header-cell>Last name</th>
+          <th mat-header-cell>Username</th>
+          <th mat-header-cell>E-mail</th>
+          <th mat-header-cell>Password</th>
+          <th mat-header-cell>Address</th>
+          <th mat-header-cell></th>
+          <th mat-header-cell></th>
+        </tr>
+      </thead>
+      <tr *ngFor="let user of users$ | async" mat-row>
+        <td mat-cell>{{ user.id }}</td>
+        <td mat-cell>{{ user.firstName }}</td>
+        <td mat-cell>{{ user.lastName }}</td>
+        <td mat-cell>{{ user.userName }}</td>
+        <td mat-cell>{{ user.email }}</td>
+        <td mat-cell>{{ user.password }}</td>
+        <td mat-cell>{{ user.address }}</td>
+        <td mat-cell>
+          <button (click)="editedUser(user.id)">Edit</button>
+        </td>
+        <td mat-cell>
+          <button (click)="removeUser(user)">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
