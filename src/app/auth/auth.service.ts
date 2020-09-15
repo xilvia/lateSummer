@@ -35,6 +35,7 @@ export class AuthService {
   }
 
   login(authDataDto: AuthDataDto): BehaviorSubject<AuthDataDto> {
+    console.log(authDataDto);
     this.http
       .post<{ token: string; expiresIn: number; userId: number }>(
         this.url,
