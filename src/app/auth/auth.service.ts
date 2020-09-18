@@ -10,11 +10,12 @@ import { AuthDataDto } from './authDataModel';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly url = `${apiConfig.url}/login`;
+  private readonly url = `${apiConfig.url}/users/login`;
   private userId: number;
   private token: string;
   private isAuthenticated = false;
   private tokenTimer: number;
+  private loggedName: string;
 
   constructor(
     private http: HttpClient,
@@ -22,20 +23,20 @@ export class AuthService {
     private userService: UserService
   ) {}
 
-  get token() {
-    return this.token;
-  }
+  // get token() {
+  //   return this.token;
+  // }
 
-  get userId() {
-    return this.userId;
-  }
+  // get userId() {
+  //   return this.userId;
+  // }
 
-  get isAuthenticated() {
-    return this.isAuthenticated;
-  }
+  // get isAuthenticated() {
+  //   return this.isAuthenticated;
+  // }
 
   login(authDataDto: AuthDataDto): BehaviorSubject<AuthDataDto> {
-    console.log(authDataDto);
+    console.log(authDataDto, this.url);
     this.http
       .post<{ token: string; expiresIn: number; userId: number }>(
         this.url,
@@ -43,11 +44,13 @@ export class AuthService {
       )
       .subscribe((response) => {
         const token = response.token;
+        console.log(response);
         this.token = token;
         if (token) {
           const expiresInDuration = response.expiresIn;
           this.isAuthenticated = true;
           this.userId = response.userId;
+          console.log(this.userId);
           const now = new Date();
           const expirationDate = new Date(
             now.getTime() + expiresInDuration * 1000

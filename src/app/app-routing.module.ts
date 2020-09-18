@@ -6,6 +6,7 @@ import { CreateUserComponent } from './user/controllers/create-user/create-user.
 import { UpdateUserComponent } from './user/controllers/update-user/update-user.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { NavComponent } from './nav/nav.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'create', component: CreateUserComponent },
   { path: 'edit/:id', component: UpdateUserComponent },
   { path: 'messenger', component: MessengerComponent },
+  { path: 'nav', component: NavComponent },
   { path: '', redirectTo: '/list', pathMatch: 'full' },
 ];
 

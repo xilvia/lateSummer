@@ -56,22 +56,6 @@ export class UpdateUserComponent implements OnInit {
         ],
       ],
       email: ['', [Validators.required, RxwebValidators.email()]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(12),
-          this.validatorService.passwordValidator(),
-        ],
-      ],
-      confirmPassword: [
-        '',
-        [
-          Validators.required,
-          RxwebValidators.compare({ fieldName: 'password' }),
-        ],
-      ],
       address: [
         '',
         [Validators.required, this.validatorService.addressValidator()],
@@ -98,14 +82,6 @@ export class UpdateUserComponent implements OnInit {
 
   get email() {
     return this.userProfile.get('email');
-  }
-
-  get password() {
-    return this.userProfile.get('password');
-  }
-
-  get confirmPassword() {
-    return this.userProfile.get('confirmPassword');
   }
 
   get address() {
@@ -145,8 +121,6 @@ export class UpdateUserComponent implements OnInit {
       lastName: editUserDto.lastName,
       userName: editUserDto.userName,
       email: editUserDto.email,
-      password: editUserDto.password,
-      confirmPassword: editUserDto.password,
       address: editUserDto.address,
     });
     return this.userProfile.value;

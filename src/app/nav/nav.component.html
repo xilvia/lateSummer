@@ -1,1 +1,23 @@
-<p>nav works!</p>
+<nav>
+  <div>
+    <ul>
+      <p></p>
+      <p id="loggedName"></p>
+      <li>
+        <a [routerLink]="['/list']">Admin main</a>
+      </li>
+      <li>
+        <a [routerLink]="['/create']">Registration</a>
+      </li>
+      <li>
+        <a [routerLink]="['/login']">Login</a>
+      </li>
+      <li>
+        <a [routerLink]="['/signup']">Sign up</a>
+      </li>
+      <li>
+        <button type="button" (click)="onLogout()">Log out</button>
+      </li>
+    </ul>
+  </div>
+</nav>
