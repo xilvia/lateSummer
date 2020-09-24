@@ -10,7 +10,6 @@
           <th mat-header-cell>Username</th>
           <th mat-header-cell>E-mail</th>
           <th mat-header-cell>Password</th>
-          <th mat-header-cell>Address</th>
           <th mat-header-cell></th>
           <th mat-header-cell></th>
         </tr>
@@ -22,7 +21,6 @@
         <td mat-cell>{{ user.userName }}</td>
         <td mat-cell>{{ user.email }}</td>
         <td mat-cell>{{ user.password }}</td>
-        <td mat-cell>{{ user.address }}</td>
         <td mat-cell>
           <button (click)="editedUser(user.id)">Edit</button>
         </td>

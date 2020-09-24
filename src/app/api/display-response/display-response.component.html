@@ -1,0 +1,21 @@
+<section>
+  <h2>Admin page</h2>
+  <div>
+    <table mat-table>
+      <thead>
+        <tr mat-header-row>
+          <th mat-header-cell>ID</th>
+          <th mat-header-cell>Description</th>
+          <th mat-header-cell>Name</th>
+
+        </tr>
+      </thead>
+      <tr *ngFor="let project of projects$ | async" mat-row>
+        <td mat-cell>{{ project.id }}</td>
+        <td mat-cell>{{ project.description }}</td>
+        <td mat-cell>{{ project.name }}</td>
+      </tr>
+    </table>
+  </div>
+</section>
+

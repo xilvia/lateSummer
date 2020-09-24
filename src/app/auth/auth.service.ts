@@ -5,17 +5,19 @@ import { BehaviorSubject } from 'rxjs';
 import { UserService } from '../user/services/user.service';
 import { apiConfig } from '../common/apiConfig';
 import { AuthDataDto } from './authDataModel';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly url = `${apiConfig.url}/users/login`;
-  private userId: number;
+  private userId: string;
+  private userName: string;
   private token: string;
   private isAuthenticated = false;
   private tokenTimer: number;
-  private loggedName: string;
+  private authStatusListener = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -23,65 +25,113 @@ export class AuthService {
     private userService: UserService
   ) {}
 
-  // get token() {
-  //   return this.token;
-  // }
+  getToken(): string {
+    return this.token;
+  }
 
-  // get userId() {
-  //   return this.userId;
-  // }
+  getUserId(): string {
+    return this.userId;
+  }
 
-  // get isAuthenticated() {
-  //   return this.isAuthenticated;
-  // }
+  getUserName(): string {
+    return this.userName;
+  }
+
+  getIsAuthenticated(): boolean {
+    return this.isAuthenticated;
+  }
+
+  getAuthStatusListener(): Observable<boolean> {
+    return this.authStatusListener.asObservable();
+  }
 
   login(authDataDto: AuthDataDto): BehaviorSubject<AuthDataDto> {
+    localStorage.clear();
     console.log(authDataDto, this.url);
     this.http
-      .post<{ token: string; expiresIn: number; userId: number }>(
+      .post<{ token: string; expiresIn: string; userId: string }>(
         this.url,
         authDataDto
       )
-      .subscribe((response) => {
-        const token = response.token;
-        console.log(response);
-        this.token = token;
-        if (token) {
-          const expiresInDuration = response.expiresIn;
-          this.isAuthenticated = true;
-          this.userId = response.userId;
-          console.log(this.userId);
-          const now = new Date();
-          const expirationDate = new Date(
-            now.getTime() + expiresInDuration * 1000
-          );
-          console.log(expirationDate);
-          this.saveAuthData(token, expirationDate, this.userId);
-          this.router.navigate(['/']);
-        }
-      });
+      .subscribe(
+        (response) => {
+          const token = response.token;
+          console.log(response);
+          this.token = token;
+          if (token) {
+            const expiresInDuration = response.expiresIn;
+            console.log(expiresInDuration);
+            this.isAuthenticated = true;
+            this.userId = response.userId;
+            this.authStatusListener.next(true);
+            console.log(this.userId);
+            const now = new Date();
+            const expirationDate = new Date(
+              now.getTime() + +expiresInDuration * 1000
+            );
+            console.log(expirationDate);
+            this.saveAuthData(token, expirationDate, this.userId);
+            this.saveLoggedUserName(authDataDto);
+            this.router.navigate(['/']);
+          }
+        },
+        (error) => this.authStatusListener.next(false)
+      );
 
     return;
   }
-  logout() {
+
+  autoAuthUser(): void {
+    console.log('autoAuthUser');
+    const authInformation = this.getAuthData();
+    if (!authInformation) {
+      return;
+    }
+    const now = new Date();
+    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    if (expiresIn > 0) {
+      console.log(expiresIn);
+      this.token = authInformation.token;
+      this.isAuthenticated = true;
+      this.userId = authInformation.userId;
+      this.setAuthTimer(expiresIn / 1000);
+      this.authStatusListener.next(true);
+    }
+  }
+
+  logout(): void {
     this.token = null;
     this.isAuthenticated = false;
     this.userId = null;
+    this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/']);
   }
 
-  private saveAuthData(token: string, expirationDate: Date, userId: number) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('expiration', expirationDate.toISOString());
-    localStorage.setItem('userId', JSON.stringify(userId));
+  private setAuthTimer(duration: number): void {
+    console.log('Setting timer: ' + duration);
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
   }
 
-  private clearAuthData() {
+  private saveLoggedUserName(authDataDto: AuthDataDto) {
+    console.log(`save ${authDataDto.userName}`);
+    localStorage.setItem('userName', JSON.stringify(authDataDto.userName));
+  }
+
+  private saveAuthData(token: string, expirationDate: Date, userId: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString());
+    localStorage.setItem('userId', userId);
+  }
+
+  private clearAuthData(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
   }
 
   private getAuthData() {

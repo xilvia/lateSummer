@@ -17,7 +17,7 @@
           <input type="text" formControlName="firstName" id="firstName" required />
           <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
             <div *ngIf="firstName.errors.required">First name is required</div>
-            <div *ngIf="firstName.errors.minlength">First name must be at least 4 characters long</div>
+            <div *ngIf="firstName.errors.minlength">First name must be at least 2 characters long</div>
             <div *ngIf="firstName.errors.invalidFirstName">First name can contain only letters</div>
           </div>
         </div>
@@ -28,7 +28,7 @@
           <input type="text" formControlName="lastName" id="lastName" required />
           <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
             <div *ngIf="lastName.errors.required">Last name is required</div>
-            <div *ngIf="lastName.errors.minlength">Last name must be at least 4 characters long</div>
+            <div *ngIf="lastName.errors.minlength">Last name must be at least 2 characters long</div>
             <div *ngIf="lastName.errors.invalidLastName">Last name can contain only letters</div>
           </div>
         </div>
@@ -55,16 +55,6 @@
             <div *ngIf="email.errors.required">E-mail is required</div>
             <div *ngIf="email.errors.email">Invalid e-mail format</div>
             <div>E-mail already exists</div>
-          </div>
-        </div>
-        <br />
-        <div>
-          <label for="address">Address:</label>
-          <br />
-          <input type="text" formControlName="address" id="address" required />
-          <div *ngIf="address.invalid && (address.dirty || address.touched)">
-            <div *ngIf="address.errors.required">Address is required</div>
-            <div *ngIf="address.errors.invalidAddress">Invalid address</div>
           </div>
         </div>
         <br />

@@ -27,8 +27,22 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.signUpForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.minLength(2), this.validatorService.firstNameValidator()]],
-      lastName: ['', [Validators.required, Validators.minLength(2), this.validatorService.lastNameValidator()]],
+      firstName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          this.validatorService.firstNameValidator(),
+        ],
+      ],
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          this.validatorService.lastNameValidator(),
+        ],
+      ],
       userName: [
         '',
         [
@@ -56,10 +70,6 @@ export class SignUpComponent implements OnInit {
           RxwebValidators.compare({ fieldName: 'password' }),
         ],
       ],
-      address: [
-        '',
-        [Validators.required, this.validatorService.addressValidator()],
-      ],
     });
   }
 
@@ -85,10 +95,6 @@ export class SignUpComponent implements OnInit {
 
   get confirmPassword() {
     return this.signUpForm.get('confirmPassword');
-  }
-
-  get address() {
-    return this.signUpForm.get('address');
   }
 
   onSubmit(): void {

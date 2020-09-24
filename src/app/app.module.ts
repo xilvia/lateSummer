@@ -9,7 +9,7 @@ import { UserListComponent } from './user/controllers/userList/userList.componen
 import { MessengerComponent } from './messenger/controllers/messenger/messenger.component';
 import { UserService } from './user/services/user.service';
 import { MessengerService } from './messenger/services/messenger.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserResource } from './user/services/userResource';
 import { CreateUserComponent } from './user/controllers/create-user/create-user.component';
@@ -19,6 +19,10 @@ import { ValidatorService } from './user/services/validator.service';
 import { LoginComponent } from './auth/login/login.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { NavComponent } from './nav/nav.component';
+import { UniqueUserNameDirective } from './user/services/unique-user-name.directive';
+import { AuthInterceptor } from './auth/auth-interceptor';
+import { HomeComponent } from './home/home.component';
+import { DisplayResponseComponent } from './api/display-response/display-response.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,9 @@ import { NavComponent } from './nav/nav.component';
     NavComponent,
     LoginComponent,
     SignUpComponent,
+    UniqueUserNameDirective,
+    HomeComponent,
+    DisplayResponseComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,13 @@ import { NavComponent } from './nav/nav.component';
     FormsModule,
     RxReactiveFormsModule,
   ],
-  providers: [UserService, MessengerService, UserResource, ValidatorService],
+  providers: [
+    UserService,
+    MessengerService,
+    UserResource,
+    ValidatorService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

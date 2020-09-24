@@ -1,22 +1,26 @@
 <nav>
   <div>
+    <br>
+    <div *ngIf="userIsAuthenticated">
+      <span>Logged in as {{ loggedUser }}</span>
+      <br>
+      <button type="button" (click)="onLogout()">Log out</button>
+    </div>
     <ul>
-      <p></p>
-      <p id="loggedName"></p>
       <li>
+        <a [routerLink]="['/']">Home</a>
+      </li>
+      <li *ngIf="userIsAuthenticated">
         <a [routerLink]="['/list']">Admin main</a>
       </li>
-      <li>
+      <li *ngIf="userIsAuthenticated">
         <a [routerLink]="['/create']">Registration</a>
       </li>
-      <li>
+      <li *ngIf="!userIsAuthenticated">
         <a [routerLink]="['/login']">Login</a>
       </li>
-      <li>
+      <li *ngIf="!userIsAuthenticated">
         <a [routerLink]="['/signup']">Sign up</a>
-      </li>
-      <li>
-        <button type="button" (click)="onLogout()">Log out</button>
       </li>
     </ul>
   </div>

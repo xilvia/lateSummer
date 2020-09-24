@@ -8,6 +8,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateUserDto } from '../../dataModel/createUserDto';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { ValidatorService } from '../../services/validator.service';
+import {
+  UniqueUserNameDirective,
+  UniqueUserNameValidator,
+} from '../../services/unique-user-name.directive';
 
 @Component({
   selector: 'app-create-user',
@@ -20,6 +24,7 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private uniqueUserNameValidator: UniqueUserNameValidator,
     private validatorService: ValidatorService,
     private messengerService: MessengerService,
     private router: Router
@@ -45,13 +50,21 @@ export class CreateUserComponent implements OnInit {
       ],
       userName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(12),
-          RxwebValidators.alphaNumeric(),
-          this.validatorService.userNameValidator(),
-        ],
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(12),
+            RxwebValidators.alphaNumeric(),
+            this.validatorService.userNameValidator(),
+          ],
+          asyncValidators: [
+            this.uniqueUserNameValidator.validate.bind(
+              this.uniqueUserNameValidator
+            ),
+          ],
+          updateOn: 'blur',
+        },
       ],
       email: ['', [Validators.required, RxwebValidators.email()]],
       password: [
@@ -69,10 +82,6 @@ export class CreateUserComponent implements OnInit {
           Validators.required,
           RxwebValidators.compare({ fieldName: 'password' }),
         ],
-      ],
-      address: [
-        '',
-        [Validators.required, this.validatorService.addressValidator()],
       ],
     });
   }
@@ -99,10 +108,6 @@ export class CreateUserComponent implements OnInit {
 
   get confirmPassword() {
     return this.userProfile.get('confirmPassword');
-  }
-
-  get address() {
-    return this.userProfile.get('address');
   }
 
   onSubmit(): void {

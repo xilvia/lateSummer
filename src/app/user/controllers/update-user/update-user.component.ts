@@ -56,10 +56,6 @@ export class UpdateUserComponent implements OnInit {
         ],
       ],
       email: ['', [Validators.required, RxwebValidators.email()]],
-      address: [
-        '',
-        [Validators.required, this.validatorService.addressValidator()],
-      ],
     });
 
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -82,10 +78,6 @@ export class UpdateUserComponent implements OnInit {
 
   get email() {
     return this.userProfile.get('email');
-  }
-
-  get address() {
-    return this.userProfile.get('address');
   }
 
   onSubmit(): void {
@@ -121,7 +113,6 @@ export class UpdateUserComponent implements OnInit {
       lastName: editUserDto.lastName,
       userName: editUserDto.userName,
       email: editUserDto.email,
-      address: editUserDto.address,
     });
     return this.userProfile.value;
   }

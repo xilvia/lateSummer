@@ -24,6 +24,10 @@ export class UserResource {
       UserDto
     >;
   }
+  public findUserName(userName: string) {
+    console.log(userName);
+    return this.http.post(this.url, userName);
+  }
 
   public post(createUserDto: CreateUserDto): BehaviorSubject<UserDto> {
     return this.http.post<UserDto>(this.url, createUserDto) as BehaviorSubject<
