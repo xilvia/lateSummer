@@ -23,6 +23,7 @@ import { UniqueUserNameDirective } from './user/services/unique-user-name.direct
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { HomeComponent } from './home/home.component';
 import { DisplayResponseComponent } from './api/display-response/display-response.component';
+import { ApiInterceptor } from './api/api-interceptor';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DisplayResponseComponent } from './api/display-response/display-respons
     UserResource,
     ValidatorService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

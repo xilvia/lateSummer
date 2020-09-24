@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = '';
+  private apiUrl = 'https://gitlab.com/api/v4/projects';
 
   constructor(private http: HttpClient) {}
 

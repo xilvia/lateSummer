@@ -9,6 +9,7 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
+import { DisplayResponseComponent } from './api/display-response/display-response.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'edit/:id', component: UpdateUserComponent },
   { path: 'messenger', component: MessengerComponent },
   { path: 'nav', component: NavComponent },
+  { path: 'api', component: DisplayResponseComponent},
   { path: '', redirectTo: 'HomeComponent', pathMatch: 'full' },
 ];
 
