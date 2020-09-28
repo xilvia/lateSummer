@@ -8,6 +8,7 @@ import { CreateUserDto } from 'src/app/user/dataModel/createUserDto';
 import { UserDto } from 'src/app/user/dataModel/userDto';
 import { UserService } from 'src/app/user/services/user.service';
 import { ValidatorService } from 'src/app/user/services/validator.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,7 +20,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private authService: AuthService,
     private validatorService: ValidatorService,
     private messengerService: MessengerService,
     private router: Router
@@ -106,10 +107,10 @@ export class SignUpComponent implements OnInit {
 
   public addUser(createUserDto: CreateUserDto): BehaviorSubject<UserDto> {
     console.log('addNewUser', createUserDto);
-    this.userService.createUser(createUserDto).subscribe((user) => {
+    this.authService.signup(createUserDto).subscribe((user) => {
       return console.log(user);
     });
-    this.router.navigate(['/list']);
+    this.router.navigate(['/userList']);
     return;
   }
 }

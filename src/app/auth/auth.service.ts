@@ -6,12 +6,15 @@ import { UserService } from '../user/services/user.service';
 import { apiConfig } from '../common/apiConfig';
 import { AuthDataDto } from './authDataModel';
 import { Observable } from 'rxjs/internal/Observable';
+import { CreateUserDto } from '../user/dataModel/createUserDto';
+import { UserDto } from '../user/dataModel/userDto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly url = `${apiConfig.url}/users/login`;
+  private readonly loginUrl = `${apiConfig.url}/api/v1/auth/login`;
+  private readonly signUpUrl = `${apiConfig.url}/api/v1/auth/signup`;
   private userId: string;
   private userName: string;
   private token: string;
@@ -45,16 +48,24 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
+  signup(createUserDto: CreateUserDto): BehaviorSubject<UserDto> {
+    return this.http.post<UserDto>(
+      this.signUpUrl,
+      createUserDto
+    ) as BehaviorSubject<UserDto>;
+  }
+
   login(authDataDto: AuthDataDto): BehaviorSubject<AuthDataDto> {
     localStorage.clear();
-    console.log(authDataDto, this.url);
+    console.log(authDataDto, this.loginUrl);
     this.http
       .post<{ token: string; expiresIn: string; userId: string }>(
-        this.url,
+        this.loginUrl,
         authDataDto
       )
       .subscribe(
         (response) => {
+          console.log(response);
           const token = response.token;
           console.log(response);
           this.token = token;

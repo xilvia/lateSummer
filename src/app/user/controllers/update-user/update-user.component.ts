@@ -90,11 +90,13 @@ export class UpdateUserComponent implements OnInit {
     id: number,
     editUserDto: EditUserDto
   ): BehaviorSubject<UserDto> {
+    console.log(editUserDto);
     this.userId = id;
     this.userService.updateUser(id, editUserDto).subscribe((editedUser) => {
+      console.log(editedUser);
       return editedUser;
     });
-    this.router.navigate(['/list']);
+    this.router.navigate(['/userList']);
     return;
   }
 

@@ -11,10 +11,13 @@
         <a [routerLink]="['/']">Home</a>
       </li>
       <li *ngIf="userIsAuthenticated">
-        <a [routerLink]="['/list']">Admin main</a>
+        <a [routerLink]="['/userList']">Admin main</a>
       </li>
       <li *ngIf="userIsAuthenticated">
-        <a [routerLink]="['/create']">Registration</a>
+        <a [routerLink]="['/signup']">Registration</a>
+      </li>
+      <li *ngIf="userIsAuthenticated">
+        <a [routerLink]="['/api']">GitLab Projects</a>
       </li>
       <li *ngIf="!userIsAuthenticated">
         <a [routerLink]="['/login']">Login</a>

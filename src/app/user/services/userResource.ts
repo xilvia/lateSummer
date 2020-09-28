@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
   providedIn: 'root',
 })
 export class UserResource {
-  private readonly url = `${apiConfig.url}/users`;
+  private readonly url = `${apiConfig.url}/api/v1/users`;
 
   constructor(private http: HttpClient) {}
 
@@ -24,21 +24,17 @@ export class UserResource {
       UserDto
     >;
   }
-  public findUserName(userName: string) {
-    console.log(userName);
-    return this.http.post(this.url, userName);
-  }
 
-  public post(createUserDto: CreateUserDto): BehaviorSubject<UserDto> {
-    return this.http.post<UserDto>(this.url, createUserDto) as BehaviorSubject<
-      UserDto
-    >;
-  }
+  // public findUserName(userName: string) {
+  //   console.log(userName);
+  //   return this.http.post(this.url, userName);
+  // }
 
   public update(
     id: number,
     editUserDto: EditUserDto
   ): BehaviorSubject<UserDto> {
+    console.log(this.url);
     return this.http.put<UserDto>(
       `${this.url}/${id}`,
       editUserDto

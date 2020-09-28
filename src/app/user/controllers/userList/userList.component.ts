@@ -32,7 +32,7 @@ export class UserListComponent implements OnInit {
   }
 
   public editedUser(id: number): BehaviorSubject<UserDto> {
-    this.router.navigate(['/edit', id]);
+    this.router.navigate(['/editUser', id]);
     return;
   }
 

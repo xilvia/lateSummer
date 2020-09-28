@@ -19,14 +19,15 @@ export class UserService {
     return this.userResource.findOne(id);
   }
 
-  public createUser(createUserDto: CreateUserDto): BehaviorSubject<UserDto> {
-    return this.userResource.post(createUserDto);
-  }
+  // public createUser(createUserDto: CreateUserDto): BehaviorSubject<UserDto> {
+  //   return this.userResource.post(createUserDto);
+  // }
 
   public updateUser(
     id: number,
     editUserDto: EditUserDto
   ): BehaviorSubject<UserDto> {
+    console.log(editUserDto);
     return this.userResource.update(id, editUserDto);
   }
 
